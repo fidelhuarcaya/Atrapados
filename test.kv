@@ -1,0 +1,28 @@
+#:kivy 1.11.0
+
+<ScreenManagement>:
+    Screen1:
+        id: Screen1
+    Screen2:
+        id: Screen2
+
+<Screen1>:
+    name: "Screen_1"
+    BoxLayout:
+        Label:
+            text: "nombre"
+        TextInput:
+            id: nombre
+        Button:
+            text: "Ver saludo"
+            on_release:
+                root.update_info()
+                root.manager.current = "Screen_2"
+
+<Screen2>:
+    name: 'Screen_2'
+    Button:
+        text: root.names
+        on_release: 
+            root.manager.current = quit() #"Screen_1"
+        font_size: 50

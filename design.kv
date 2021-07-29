@@ -1,0 +1,215 @@
+#:kivy 1.0
+# .kv file of creating a circular button using canvas
+
+<MainLayout>:
+    orientation: 'vertical'
+    canvas:
+        Color:
+            rgba: 216 / 255., 195 / 255., 88 / 255., 1
+        Rectangle:
+            pos:self.pos 
+            size:self.size
+            source:'fondo.jpg'
+   
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.width, root.height
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size: 400, 150
+            size_hint: None, None
+            pos_hint: {'center_x': .5, 'center_y':0.5}
+            
+            Label:               
+                text: 'Atrapados'
+                
+                font_size: 25
+              
+                pos_hint: {'center_x': .5, 'center_y':0.5}
+            Label:
+                text: 'eeee'
+            
+                pos_hint: {'center_x': .5, 'center_y':0.5}
+    
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 20
+            
+            GridLayout:
+                rows:2
+                cols: 7
+                
+                Button:
+                    id: button1
+                    background_color: (255, 255, 255, 1.0)
+                    text: "1"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image1
+                        source: 'btn_red.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                    
+
+
+                Button:
+                    id: button2
+                    background_color: (255, 255, 255, 1.0)
+                    text: "2"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image2
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                
+                Button:
+                    id: button3
+                    background_color: (255, 255, 255, 1.0)
+                    text: "3"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image3
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button4
+                    background_color: (255, 255, 255, 1.0)
+                    text: "4"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image4
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button5
+                    background_color: (255, 255, 255, 1.0)
+                    text: "5"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image5
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button6
+                    background_color: (255, 255, 255, 1.0)
+                    text: "6"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image6
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button7
+                    background_color: (255, 255, 255, 1.0)
+                    text: "7"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image7
+                        source: 'btn_blue.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                
+                Button:
+                    id: button8
+                    background_color: (255, 255, 255, 1.0)
+                    text: "8"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image8
+                        source: 'btn_red.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                
+                Button:
+                    id: button9
+                    background_color: (255, 255, 255, 1.0)
+                    text: "9"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image9
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button10
+                    background_color: (255, 255, 255, 1.0)
+                    text: "10"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image10
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button11
+                    background_color: (255, 255, 255, 1.0)
+                    text: "11"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image11
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button12
+                    background_color: (255, 255, 255, 1.0)
+                    text: "12" 
+                    on_release: root.mov(self)
+                    Image:
+                        id: image12
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y                 
+                Button:
+                    id: button13
+                    background_color: (255, 255, 255, 1.0)
+                    text: "13"
+                    on_release: root.mov(self)
+                    Image:
+                        id: image13
+                        source: 'white.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+                Button:
+                    id: button14
+                    text: "14"
+                    background_color: (255, 255, 255, 1.0)
+                    on_release: root.mov(self)
+                    Image:
+                        id: image14
+                        source: 'btn_blue.png'
+                        center_x: self.parent.center_x
+                        center_y: self.parent.center_y
+            
+            
+                
+            Label:
+                text: 'eeee'
+                size: 10,10
+                size_hint: None, None
+                pos_hint: {'center_x': .5, 'center_y':0.5}            
+            Button:
+                text: 'Empezar a jugar'
+                font_size: 20
+                background_color: .58, 2.21, .33, 1
+                size: 500, 70
+                size_hint: None, None
+                pos_hint: {'center_x': .5, 'center_y':0.5}
+            Label:
+                text: 'eeee'
+                size_hint: None, None
+                pos_hint: {'center_x': .5, 'center_y':0.5}
+                
+                
+                    
+            
+
+
+
+            
