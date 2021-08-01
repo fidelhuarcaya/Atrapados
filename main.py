@@ -116,14 +116,21 @@ class MainLayout(Screen):
             self.ids[my_id].source = 'white.png'    """
     def goHome(self,*args):
         self.manager.current = "Screen_1"
+        self.reiniciar()
         
-
+    def reiniciar(self,*args):
+        for i in range(1, 14):
+            self.ids["image"+str(i)].source = ''           
+        self.ids["image1"].source = 'btn_red.png'
+        self.ids["image7"].source = 'btn_blue.png'
+        self.ids["image8"].source = 'btn_red.png'
+        self.ids["image14"].source = 'btn_blue.png'
             
     def alerta(self, titulo, msj, btn1, btn2):
             print("alert")
             layout = GridLayout(cols=1, padding=10, spacing=10)
             popupLabel = Label(text=msj)
-            closeButton = Button(text=btn1, size_hint=(10, 0.5), background_color=( .58, 2.21, .33, 1))
+            closeButton = Button(text=btn1, on_release=self.reiniciar, size_hint=(10, 0.5), background_color=( .58, 2.21, .33, 1))
          
             layout.add_widget(popupLabel)
             layout.add_widget(closeButton)
@@ -135,11 +142,7 @@ class MainLayout(Screen):
                 reJugar = Button(text=btn2,on_press=popup.dismiss,on_release = self.goHome, size_hint=(
                     10, 0.5), background_color=(.58, 2.21, .33, 1))   
                 layout.add_widget(reJugar)
-                
-                
-                   
-            
-
+   
             popup = Popup(title=titulo,
                         content=layout,
                           size_hint=(None, None), size=(700, 300),
@@ -148,9 +151,7 @@ class MainLayout(Screen):
             closeButton.bind(on_press=popup.dismiss)
             if len(btn2) > 0:
                 reJugar.bind(on_press=popup.dismiss)
-            
-
-        
+                  
 
 class MainApp(App):
     def build(self):       
