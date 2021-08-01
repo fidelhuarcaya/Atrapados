@@ -47,10 +47,10 @@ class MainLayout(Screen):
         msj=''
         if comienza == 0:
             msj = 'Humano'
-            self.alerta('Comienza el '+msj)
+            self.alerta("Play game",'Comienza el '+msj, "Go","")
         else:
             msj = 'Computador'
-            self.alerta('Comienza el '+msj)
+            self.alerta("Play game",'Comienza el '+msj, "Go","")
         return msj
 
     #def movimiento_pc(self):
@@ -58,9 +58,11 @@ class MainLayout(Screen):
     def verificarGanador(self, instance):    
         lista=self.posFichas() #Almacena los id de las pociones de las fichas
         if lista[0].split('image')[1] == '6' and lista[2].split('image')[1] == '13':
-            self.alerta("La máquina ha ganado")
+            self.alerta("Partida finalizada", "La máquina ha ganado","Empezar de nuevo","Regresar a inicio" )
         elif lista[1].split('image')[1] == '2' and lista[3].split('image')[1] == '9':
-            self.alerta("Has ganado a la máquina")
+            self.alerta("Partida finalizada","Has ganado a la máquina","Empezar de nuevo","Regresar a inicio" )
+            
+        
     
     def posFichas(self):
         lista=[]
@@ -101,7 +103,7 @@ class MainLayout(Screen):
                 self.mover= False
                 self.id_mover = ''
         else:# En caso dar clicl en la ficha roja o poner otra encima
-            self.alerta(msj="No puede mover, ni poner encima de la ficha roja.")
+            self.alerta('Selección de fichas',"No puede mover, ni poner encima de la ficha roja.", "Entiendo", "")
         self.verificarGanador(instance)
 
     def changeImage(self, instance):
@@ -112,26 +114,43 @@ class MainLayout(Screen):
             self.ids[my_id].source = 'btn_red.png'
         else:
             self.ids[my_id].source = 'white.png'    """
-            
-            
-    def alerta(self, msj):
-            print("alert")
-            layout = GridLayout(cols=1, padding=10)
-            popupLabel = Label(
-                text=msj)
-            closeButton = Button(text="Entiendo", size_hint=(10, 0.3), background_color=( .58, 2.21, .33, 1))
-
-            layout.add_widget(popupLabel)
-            layout.add_widget(closeButton)
-            popup = Popup(title='Selección de fichas',
-                        content=layout,
-                          size_hint=(None, None), size=(700, 300),
-                                background_color=(.33, 1.29, 2.21, 1))
-            popup.open()
-            closeButton.bind(on_press=popup.dismiss)
+    def goHome(self,*args):
+        self.manager.current = "Screen_1"
         
 
+            
+    def alerta(self, titulo, msj, btn1, btn2):
+            print("alert")
+            layout = GridLayout(cols=1, padding=10, spacing=10)
+            popupLabel = Label(text=msj)
+            closeButton = Button(text=btn1, size_hint=(10, 0.5), background_color=( .58, 2.21, .33, 1))
+         
+            layout.add_widget(popupLabel)
+            layout.add_widget(closeButton)
+            popup = Popup(title=titulo,
+                          
+                          size_hint=(None, None), size=(700, 300),
+                          background_color=(.33, 1.29, 2.21, 1))
+            if len(btn2)>0:
+                reJugar = Button(text=btn2,on_press=popup.dismiss,on_release = self.goHome, size_hint=(
+                    10, 0.5), background_color=(.58, 2.21, .33, 1))   
+                layout.add_widget(reJugar)
+                
+                
+                   
+            
 
+            popup = Popup(title=titulo,
+                        content=layout,
+                          size_hint=(None, None), size=(700, 300),
+                          background_color=(.33, 1.29, 2.21, 1), auto_dismiss=True)
+            popup.open()
+            closeButton.bind(on_press=popup.dismiss)
+            if len(btn2) > 0:
+                reJugar.bind(on_press=popup.dismiss)
+            
+
+        
 
 class MainApp(App):
     def build(self):       
