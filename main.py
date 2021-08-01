@@ -1,47 +1,38 @@
 from kivy.app import App
 from kivy.uix.button import Button
-from kivy.uix.widget import Widget
+from kivy.core.image import Image
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.lang import Builder
+from kivy.lang.builder import Builder
 from kivy.graphics import Rectangle, Color 
 from kivy.uix.popup import Popup
+from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-from functools import partial
-from kivy.resources import resource_find
-from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.screenmanager import ScreenManager, Screen
 import random
-from kivy.core.window import Window
+from kivy.properties import StringProperty
 
-
-#indicamos el dirección del diseño de la app
-Builder.load_file('design.kv')
-
-
-
-
-class MainLayout(Widget):
-    def __init__(self):
-        super(MainLayout, self).__init__()
+class ScreenManagement(ScreenManager):
+      pass
+class Screen1(Screen):
+    name_x = StringProperty('')
+    def update_info(self):
+        self.name_x = self.ids.nombre.text
+        print('tu nombre es: ',self.name_x)
         
+
+
+
+class MainLayout(Screen):  
     click = True
     mover = False
     id_mover = ''
-    btn_red1='1'
-    btn_red2='8'
-    btn_blue1='7'
-    btn_blue2='14'
+    play=''
 
-    def showquestion(self):
-            self.ids['label2'].text = "filetext"
-
-    def showanswer(self):
-            self.ids['button1'].text = "filetext" 
-                      
-            click=True
-        
-
+    def on_pre_enter(self, *args):
+        self.play = self.sortearJugador()
+        self.ids.name.text = 'Bienvenido '+self.manager.ids.Screen1.name_x
     def desactivar_imagen(self):
        self.ids.my_image.source = 'white.png'
     def activar_imagen(self):
@@ -53,27 +44,48 @@ class MainLayout(Widget):
         self.ids[myId].source = 'white.png'
     def sortearJugador(self):
         comienza = random.randint(0, 1)
+        msj=''
         if comienza == 0:
-            self.alerta('Comienza el jugador')
+            msj = 'Humano'
+            self.alerta('Comienza el '+msj)
         else:
-            self.alerta('Comienza el PC')
+            msj = 'Computador'
+            self.alerta('Comienza el '+msj)
+        return msj
+
+    #def movimiento_pc(self):
         
+    def verificarGanador(self, instance):    
+        lista=self.posFichas() #Almacena los id de las pociones de las fichas
+        if lista[0].split('image')[1] == '6' and lista[2].split('image')[1] == '13':
+            self.alerta("La máquina ha ganado")
+        elif lista[1].split('image')[1] == '2' and lista[3].split('image')[1] == '9':
+            self.alerta("Has ganado a la máquina")
+    
+    def posFichas(self):
+        lista=[]
+        widget = MainLayout()
+        for id in widget.ids.keys():
+            if id[:-7] == 'button':
+                num = id[-7]
+            if id[0: 5] == 'image' and self.ids[id].source != '':
+                lista.append(id)
+        return lista
+
+        
+            
 
     def mov(self, instance):
-        print(instance.text)
-        
-        print("getID: ",instance.parent.ids.keys())
+        #print(instance.text)
         num = instance.text  # str(self.get_id(instance).split('button')[1])
         my_id = 'image'+num
         if self.ids[my_id].source != 'btn_red.png':
             if self.ids[my_id].source == 'btn_blue.png'and not self.mover:
                 self.id_mover=my_id
 
-            if self.ids[my_id].source == 'btn_blue.png' and self.mover:
-                
+            if self.ids[my_id].source == 'btn_blue.png' and self.mover:    
                 self.alerta(msj="Movimiento erróneo. Seleccione sola una ficha a mover.")
-                
-                
+
             elif (self.ids[my_id].source == 'btn_blue.png'):
                     self.ids[my_id].source = 'mov.png'
                     self.mover = True
@@ -85,18 +97,13 @@ class MainLayout(Widget):
                 
             elif self.mover:#Si un boton está seleccionado tiene que limpiarse
                 self.ids[my_id].source = 'btn_blue.png'#Sr pinta el nuevo destino
-                self.ids[self.id_mover].source = 'white.png'#Se pinta con blanco lficha inicial
+                self.ids[self.id_mover].source = ''#Se pinta con blanco lficha inicial
                 self.mover= False
                 self.id_mover = ''
         else:# En caso dar clicl en la ficha roja o poner otra encima
             self.alerta(msj="No puede mover, ni poner encima de la ficha roja.")
-    def get_id(self, instance):
-        print("Listo: ", instance.ids.keys())
-        for id, widget in instance.parent.ids.keys():
-            print("listo2")
-            print(widget.__self__)
-            if widget.__self__ == instance: 
-                return id
+        self.verificarGanador(instance)
+
     def changeImage(self, instance):
         my_id = 'image'+str(self.get_id(instance).split('button')[1])
         self.clear_image(my_id)
@@ -127,8 +134,9 @@ class MainLayout(Widget):
 
 
 class MainApp(App):
-    def build(self):
-        return MainLayout()
+    def build(self):       
+        return Builder.load_file("design.kv")
+        
     
     def on_pause(self):
         return True
@@ -146,8 +154,7 @@ class Juego(App):
                 MainApp().alerta('Comienza el PC')
     
         
-if __name__ in ('__main__', '__android__'):
-    n=MainApp()
-    n.run()
+if __name__ in ('__main__'):
+    MainApp().run()
     
     

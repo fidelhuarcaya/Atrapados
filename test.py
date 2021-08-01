@@ -1,5 +1,7 @@
 
 
+from kivy.uix.button import Button
+from kivy.lang import Builder
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.tabbedpanel import TabbedPanel
@@ -12,29 +14,43 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 
-Builder.load_file('test.kv')
+#Builder.load_file('test.kv')
+
+
+class ScreenOne(Screen):
+    pass
+
+
+class ScreenTwo(Screen):
+    text = StringProperty('')
+
+    def on_pre_enter(self, *args):
+        print("\nScreenTwo.on_pre_enter:")
+
+        btn = Button(text="word is here", on_release=self.pressedFunction)
+        self.ids.container.add_widget(btn)
+
+        btn1 = Button(text="another word is here",
+                      on_release=self.pressedFunction)
+        self.ids.container.add_widget(btn1)
+
+    def pressedFunction(self, instance, *args):
+        self.text = str(instance.text)      # populate before switching screen
+        self.manager.current = "three"  # switch screen
+
+
+class ScreenThree(Screen):
+    def on_pre_enter(self, *args):
+        self.ids.my_label.text = self.manager.ids.screen_two.text
+
+
 class ScreenManagement(ScreenManager):
     pass
 
 
-class Screen1(Screen):
-    name_x = StringProperty('')
-
-    def update_info(self):
-        self.name_x = self.ids.nombre.text
-        print(self.name_x)
-
-
-class Screen2(Screen):
-    names = StringProperty('')
-
-    def on_pre_enter(self, *args):
-        self.names = "Hola : " + self.manager.ids.Screen1.name_x
-
-
 class MainApp(App):
     def build(self):
-        return ScreenManagement()
+        return Builder.load_file("test.kv")
 
 
 if __name__ == "__main__":
